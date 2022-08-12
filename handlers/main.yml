@@ -1,0 +1,12 @@
+---
+# - name: create symbolic link
+# - name: place desktop file
+# - name: update paths to kitty and kitty icon
+
+# - name: create symbolic link
+#   command: ./install.sh
+#   args:
+#     chdir: "{{ powerline_fonts_dir }}"
+
+# - name: update font cache
+#   command: fc-cache -vf

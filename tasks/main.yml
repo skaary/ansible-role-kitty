@@ -1,0 +1,55 @@
+---
+- name: create tmp directory for install script
+  file:
+    path: ~/tmp
+    state: directory
+    mode: "0755"
+
+- name: download pre-built kitty binaries
+  get_url:
+    url: https://sw.kovidgoyal.net/kitty/installer.sh
+    dest: ~/tmp/installer.sh
+
+- name: execute kitty script
+  script: ~/tmp/installer.sh
+  delegate_to: localhost
+
+- name: ensure ~/.local/bin exists for symlinking purposes
+  file:
+    path: ~/.local/bin
+    state: directory
+    mode: "0755"
+
+- name: create a symbolic link to add kitty to PATH
+  file:
+    src: ~/.local/kitty.app/bin/kitty
+    dest: ~/.local/bin/kitty
+    state: link
+
+- name: place the kitty.desktop file somewhere it can be found by the OS
+  copy:
+    src: ~/.local/kitty.app/share/applications/kitty.desktop
+    dest: ~/.local/share/applications/
+  delegate_to: localhost
+
+- name: If you want to open text files and images in kitty via your file manager also add the kitty-open.desktop file
+  copy:
+    src: ~/.local/kitty.app/share/applications/kitty-open.desktop
+    dest: ~/.local/share/applications/
+  delegate_to: localhost
+
+- name: add kitty-open.desktop template
+  template:
+    src: kitty-open.desktop
+    dest: ~/.local/share/applications/kitty-open.desktop
+
+- name: add kitty.desktop template
+  template:
+    src: kitty.desktop
+    dest: ~/.local/share/applications/kitty.desktop
+
+- name: remove tmp directory
+  file:
+    path: ~/tmp
+    state: absent
+    mode: "0755"

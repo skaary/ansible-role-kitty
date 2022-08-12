@@ -1,0 +1,10 @@
+---
+skip_list:
+  - 'yaml'
+  - 'risky-shell-pipe'
+  - 'git-latest'
+  - 'fqcn-builtins'
+
+warn_list:
+  - 'experimental'
+  - 'internal-error'
